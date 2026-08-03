@@ -1,0 +1,1621 @@
+<!DOCTYPE html>
+<!-- saved from url=(0071)https://agent-6a4951f90a5c26d550-%2Dprismatic-crisp-64ac2b.netlify.app/ -->
+<html lang="ru"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Starbucks Reserve | Tashkent</title>
+
+    <!-- Подключение шрифтов -->
+    <link rel="preconnect" href="https://fonts.googleapis.com/">
+    <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin="">
+    <link href="./starbucks_coffee_files/css2" rel="stylesheet">
+    
+    <style>
+        /* =========================================
+           CSS ПЕРЕМЕННЫЕ (СТРОГАЯ ПАЛИТРА)
+        ========================================= */
+        :root {
+            --color-deep: #0D3A35;       /* Deep Bluish (restored original) */
+            --color-green: #276152;      /* Moderate Green */
+            --color-laurel: #B1B7AB;     /* Laurel Green */
+            --color-cream: #FBF6F0;      /* Light Cream */
+            
+            --glass-bg: rgba(39, 97, 82, 0.15);
+            --glass-border: rgba(177, 183, 171, 0.2);
+            --transition-smooth: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+            --transition-fast: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        /* =========================================
+           БАЗОВЫЕ НАСТРОЙКИ
+        ========================================= */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--color-deep);
+            color: var(--color-cream);
+            line-height: 1.6;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        #preloader {
+            position: fixed;
+            inset: 0;
+            background: #0e382c;
+            z-index: 9999;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            transition: opacity 0.4s ease, visibility 0.4s ease;
+        }
+
+        #preloader.hidden {
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+        }
+
+        .loader-logo {
+            font-family: 'Equinox', 'Plus Jakarta Sans', sans-serif;
+            letter-spacing: 0.35em;
+            text-transform: uppercase;
+            font-size: 1.4rem;
+            margin-bottom: 1.5rem;
+            color: var(--color-cream);
+        }
+
+        .loader-spinner {
+            width: 58px;
+            height: 58px;
+            border: 4px solid rgba(251, 246, 240, 0.18);
+            border-top-color: var(--color-cream);
+            border-radius: 50%;
+            animation: loader-spin 1s linear infinite;
+        }
+
+        @keyframes loader-spin {
+            to { transform: rotate(360deg); }
+        }
+ 
+        /* Имитация геометрического Equinox через Plus Jakarta Sans */
+        h1, h2, h3, h4, .brand-font {
+            font-family: 'Equinox', 'Plus Jakarta Sans', sans-serif;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            font-weight: 700;
+            color: var(--color-cream);
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        ul {
+            list-style: none;
+        }
+
+        /* =========================================
+           АНИМАЦИИ (KEYFRAMES)
+        ========================================= */
+        @keyframes floatGradient {
+            0% { transform: translate(0, 0) scale(1) rotate(0deg); }
+            33% { transform: translate(5%, 10%) scale(1.1) rotate(5deg); }
+            66% { transform: translate(-5%, 5%) scale(0.9) rotate(-5deg); }
+            100% { transform: translate(0, 0) scale(1) rotate(0deg); }
+        }
+
+        @keyframes popCart {
+            0% { transform: scale(1); }
+            40% { transform: scale(1.2); background-color: var(--color-cream); color: var(--color-deep); }
+            100% { transform: scale(1); }
+        }
+
+        @keyframes revealUp {
+            from { opacity: 0; transform: translateY(50px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes priceSwitch {
+            0% { opacity: 1; transform: scale(1) translateY(0); }
+            50% { opacity: 0; transform: scale(0.9) translateY(-10px); }
+            100% { opacity: 1; transform: scale(1) translateY(0); }
+        }
+
+        /* =========================================
+           ГЛОБАЛЬНЫЕ КЛАССЫ И СВЕЧЕНИЕ
+        ========================================= */
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 40px;
+        }
+
+        .section-padding {
+            padding: 140px 0;
+        }
+
+        .bg-glow-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: -1;
+            overflow: hidden;
+            pointer-events: none;
+        }
+
+        .glow-blob {
+            position: absolute;
+            filter: blur(120px);
+            opacity: 0.6;
+            animation: floatGradient 20s infinite ease-in-out alternate;
+        }
+
+        .glow-1 { top: -10%; left: -10%; width: 50vw; height: 50vw; background: radial-gradient(circle, var(--color-green) 0%, transparent 70%); }
+        .glow-2 { bottom: -20%; right: -10%; width: 60vw; height: 60vw; background: radial-gradient(circle, rgba(177, 183, 171, 0.15) 0%, transparent 70%); animation-delay: -5s; }
+
+        .reveal {
+            opacity: 0;
+            visibility: hidden;
+            transition: var(--transition-smooth);
+            transform: translateY(60px);
+        }
+        
+        .reveal.active {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        /* =========================================
+           НАВИГАЦИЯ (HEADER)
+        ========================================= */
+        header.navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            padding: 24px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+            transition: var(--transition-smooth);
+            border-bottom: 1px solid transparent;
+        }
+
+        header.navbar.scrolled {
+            background: rgba(13, 58, 53, 0.85);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--glass-border);
+            padding: 16px 40px;
+        }
+
+        .nav-logo {
+            font-size: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .nav-logo span {
+            color: var(--color-laurel);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 40px;
+        }
+
+        .nav-links a {
+            font-size: 0.9rem;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--color-laurel);
+            position: relative;
+            transition: var(--transition-fast);
+        }
+
+        /* remove underline pseudo-element for nav links to keep hover clean */
+        .nav-links a::after {
+            display: none !important;
+            content: none !important;
+        }
+
+        .nav-links a {
+            transition: color 0.3s ease, opacity 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: var(--color-cream);
+            opacity: 0.85;
+        }
+
+        .cart-btn {
+            background: transparent;
+            border: 1px solid var(--color-laurel);
+            color: var(--color-cream);
+            padding: 12px 24px;
+            border-radius: 100px;
+            font-family: inherit;
+            font-weight: 500;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: var(--transition-fast);
+        }
+
+        .cart-btn:hover {
+            background: var(--color-laurel);
+            color: var(--color-deep);
+        }
+
+        .cart-btn.animating {
+            animation: popCart 0.4s ease-out;
+        }
+
+        .cart-count {
+            background: var(--color-cream);
+            color: var(--color-deep);
+            border-radius: 50%;
+            width: 24px;
+            height: 24px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 0.8rem;
+            font-weight: 700;
+        }
+
+        /* =========================================
+           HERO SECTION
+        ========================================= */
+        .hero {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 0 20px;
+            position: relative;
+        }
+
+        .hero-subtitle {
+            color: var(--color-laurel);
+            font-size: 1rem;
+            letter-spacing: 0.2em;
+            margin: 2rem 0 1rem;
+            text-transform: uppercase;
+            font-weight: 500;
+        }
+
+        .hero h1 {
+            font-size: clamp(3rem, 7vw, 6.5rem);
+            line-height: 1.1;
+            margin-bottom: 32px;
+            max-width: 1100px;
+        }
+
+        .hero h1 span {
+            color: var(--color-green);
+            -webkit-text-fill-color: transparent;
+            -webkit-text-stroke: 1px var(--color-cream);
+        }
+
+        .hero p {
+            font-size: clamp(1.1rem, 2vw, 1.3rem);
+            color: var(--color-laurel);
+            max-width: 600px;
+            margin-bottom: 48px;
+            font-weight: 300;
+        }
+
+        .hero-headline {
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: clamp(90px, 12vw, 140px);
+            flex-wrap: nowrap;
+            width: 100%;
+            max-width: 1100px;
+            margin-bottom: 1.5rem;
+            min-height: 440px;
+            z-index: 1;
+        }
+   
+        .hero-part {
+            font-size: clamp(7rem, 14vw, 12rem);
+            font-weight: 900;
+            color: #FBF6F0;
+            white-space: nowrap;
+            line-height: 1;
+            letter-spacing: 0.02em;
+            z-index: 1;
+            position: relative;
+        }
+
+        .hero-part:last-child {
+            transform: translateX(-0.8rem);
+        }
+ 
+        .model-container {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: clamp(345px, 32vw, 420px);
+            min-width: 300px;
+            height: 500px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0;
+            overflow: visible;
+            background-color: transparent;
+            z-index: 3;
+        }
+
+        .hero-content-bottom {
+            position: relative;
+            z-index: 3;
+            margin-top: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1.5rem;
+            max-width: 760px;
+            width: 100%;
+        }
+
+        .hero-content-bottom p {
+            margin: 0;
+        }
+
+        .model-container model-viewer {
+            width: 100%;
+            height: 100%;
+            display: block;
+            pointer-events: none;
+            background-color: transparent;
+        }
+
+        model-viewer::part(default-progress-bar) {
+            display: none;
+        }
+
+        @media (max-width: 768px) {
+            /* Layout / spacing adjustments for mobile */
+            html, body { font-size: 16px; }
+            .container { padding: 0 15px; }
+            header.navbar { padding: 12px 15px; }
+            .nav-links { display: flex; gap: 12px; overflow-x: auto; -webkit-overflow-scrolling: touch; padding: 6px 0; }
+            /* hide native scrollbar while keeping scrollable */
+            .nav-links::-webkit-scrollbar { height: 6px; display: none; }
+            .nav-links { -ms-overflow-style: none; scrollbar-width: none; }
+            .nav-links a { font-size: 0.85rem; padding: 6px 10px; white-space: nowrap; }
+            /* mobile hero-subtitle removed; tashkent-tag will be used instead */
+        .hero-subtitle { display:none; }
+
+            /* HERO: smaller headline + compact model */
+            .hero-headline { min-height: auto; gap: 1.6rem; margin-bottom: 1rem; }
+            .hero-part { font-size: clamp(2.5rem, 10vw, 5rem); }
+
+            /* Model sizing tuned for phones */
+            .model-container { position: relative; width: 280px; height: 350px; transform: none; margin: 0 auto; top: auto; left: auto; }
+            .model-container model-viewer { width: 100%; height: 100%; }
+
+            /* Ensure hero content bottom is close and centered */
+            .hero-content-bottom { margin-top: 1rem; padding: 0 15px; }
+            .hero p, .about-content p { padding: 0 15px; text-align: center; }
+            .location-tag, .cart-btn { padding: 8px 12px; }
+
+            /* Bento & other grids go single-column on small screens */
+            .bento-grid { grid-template-columns: 1fr; grid-auto-rows: auto; gap: 20px; }
+            .about-section { grid-template-columns: 1fr; gap: 30px; padding: 40px 15px; }
+
+            /* Buttons smaller on mobile */
+            .btn-primary { padding: 12px 28px; font-size: 0.95rem; }
+            .btn-check { padding: 12px 24px; }
+        }
+
+        /* ==========================
+           LIQUID GLASS / FROSTED STYLES
+           ========================== */
+        /* Glass text effect for the big headline */
+        .hero-part {
+            background: linear-gradient(135deg, rgba(255,255,255,0.95), rgba(255,255,255,0.32));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            filter: drop-shadow(0 4px 15px rgba(0,0,0,0.2));
+        }
+
+        /* Header nav / buttons — plain text style (no glass) */
+        .nav-links a, .cart-btn, .btn-primary {
+            background: none;
+            backdrop-filter: none;
+            -webkit-backdrop-filter: none;
+            border: none;
+            border-radius: 0;
+            box-shadow: none;
+            color: rgba(255,255,255,0.85);
+            padding: 8px 12px;
+            text-decoration: none;
+            transition: all 0.25s ease;
+        }
+        .nav-links a:hover, .cart-btn:hover { opacity: 0.85; text-decoration: none; }
+
+        /* Only primary buttons get the elevated hover; nav links remain text-only */
+        .btn-primary:hover {
+            background: rgba(255,255,255,0.14);
+            box-shadow: 0 12px 36px rgba(0,0,0,0.25), 0 0 18px rgba(255,255,255,0.04) inset;
+            transform: translateY(-3px) scale(1.02);
+        }
+
+        /* Make subtitle and cart visually lighter but readable */
+        .hero-subtitle { display: none; padding: 8px 12px; }
+        .cart-btn { padding: 8px 14px; border-radius: 999px; }
+
+        /* Tashkent tag — clean text-only element */
+        .tashkent-tag {
+            background: none !important;
+            border: none !important;
+            box-shadow: none !important;
+            color: rgba(255, 255, 255, 0.7) !important;
+            font-size: 0.85rem;
+            font-weight: 500;
+            letter-spacing: 0.35em;
+            text-transform: uppercase;
+            display: inline-block;
+            margin-bottom: 1rem;
+            margin-left: 20px !important; /* adjusted per request */
+        }
+
+        /* Keep model-viewer transparent background and pointer-events none preserved */
+        .model-container model-viewer { background-color: transparent; pointer-events: none; }
+ 
+        .btn-primary {
+            background: var(--color-cream);
+            color: var(--color-deep);
+            border: none;
+            padding: 18px 40px;
+            border-radius: 100px;
+            font-family: inherit;
+            font-size: 1rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            cursor: pointer;
+            transition: var(--transition-smooth);
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+        }
+
+        .btn-primary::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: var(--color-laurel);
+            z-index: -1;
+            transform: scaleX(0);
+            transform-origin: right;
+            transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .btn-primary:hover::before {
+            transform: scaleX(1);
+            transform-origin: left;
+        }
+
+        .btn-primary:hover {
+            color: var(--color-deep);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.3);
+            transform: translateY(-3px);
+        }
+
+        /* NAV / CART: reset glass effect — keep clean text buttons */
+        .nav-links a, .cart-btn {
+            background: transparent !important;
+            backdrop-filter: none !important;
+            -webkit-backdrop-filter: none !important;
+            border: none !important;
+            box-shadow: none !important;
+            border-radius: 0 !important;
+            padding: 0 !important;
+            transition: color 0.18s ease !important;
+        }
+
+        /* Shift entire nav links container left to align over model */
+        .nav-links { transform: translateX(-52px) !important; }
+        .nav-links a:hover, .cart-btn:hover {
+            background: transparent !important;
+            box-shadow: none !important;
+            transform: none !important;
+            color: var(--color-cream) !important;
+            opacity: 0.85 !important;
+            text-decoration: none !important;
+        }
+
+        /* Remove border/background from TASHKENT EXCLUSIVE placket (keep plain text)
+           but keep its typography and spacing intact */
+        .hero-subtitle {
+            /* remove any visual placket — strict reset */
+            background: none !important;
+            background-color: transparent !important;
+            border: none !important;
+            box-shadow: none !important;
+            padding: 0 !important;
+            border-radius: 0 !important;
+            color: #FDFBF7 !important;
+        }
+
+        /* =========================================
+           О КОФЕЙНЕ (АТМОСФЕРА)
+        ========================================= */
+        .about-section {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 80px;
+            align-items: center;
+        }
+
+        .about-image {
+            position: relative;
+            border-radius: 24px;
+            overflow: hidden;
+            aspect-ratio: 4/5;
+        }
+
+        .about-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: var(--transition-smooth);
+        }
+
+        .about-image:hover img {
+            transform: scale(1.05);
+        }
+
+        .about-image::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to top, var(--color-deep) 0%, transparent 40%);
+            opacity: 0.8;
+        }
+
+        .about-content h2 {
+            font-size: 3rem;
+            margin-bottom: 24px;
+            color: var(--color-cream);
+        }
+
+        .about-content p {
+            color: var(--color-laurel);
+            font-size: 1.15rem;
+            margin-bottom: 24px;
+            font-weight: 300;
+        }
+
+        .location-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            padding: 12px 24px;
+            border-radius: 100px;
+            color: var(--color-cream);
+            margin-top: 24px;
+            font-weight: 500;
+        }
+
+        /* =========================================
+           BENTO GRID (ПРЕИМУЩЕСТВА)
+        ========================================= */
+        .bento-section {
+            background: rgba(39, 97, 82, 0.05);
+            border-top: 1px solid var(--glass-border);
+            border-bottom: 1px solid var(--glass-border);
+        }
+
+        .bento-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            grid-auto-rows: 320px;
+            gap: 24px;
+        }
+
+        .bento-card {
+            border-radius: 32px;
+            padding: 40px;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            transition: var(--transition-smooth);
+            border: 1px solid var(--glass-border);
+        }
+
+        .bento-card:hover {
+            transform: translateY(-10px);
+        }
+
+        .bento-img {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            object-fit: cover;
+            z-index: 1;
+            transition: transform 1s ease;
+        }
+
+        .bento-card:hover .bento-img {
+            transform: scale(1.1);
+        }
+
+        .bento-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to top, rgba(13, 58, 53, 0.9) 0%, rgba(13, 58, 53, 0.2) 100%);
+            z-index: 2;
+        }
+
+        .bento-content {
+            position: relative;
+            z-index: 3;
+        }
+
+        .bento-content h3 {
+            font-size: 2rem;
+            margin-bottom: 12px;
+        }
+
+        .bento-content p {
+            color: var(--color-laurel);
+            font-size: 1rem;
+        }
+
+        /* Специфичные карточки Bento */
+        .card-roastery { grid-column: span 2; grid-row: span 2; }
+        .card-arabica { grid-column: span 2; grid-row: span 1; background: var(--color-green); display: flex; justify-content: center; align-items: flex-start; padding: 40px; border: none; }
+        .card-arabica h3 { color: var(--color-cream); font-size: 2.5rem;}
+        .card-arabica p { color: rgba(251, 246, 240, 0.8); font-size: 1.1rem;}
+        /* Wi-Fi card — enforce cream background and dark green text */
+        /* Wi‑Fi card: dark muted accent with light text */
+        .card-wifi { grid-column: span 1; grid-row: span 1; background-color: #B8B9B2 !important; color: var(--color-deep) !important; border: none !important; }
+        .card-wifi h3, .card-wifi p { color: var(--color-deep) !important; }
+        .card-wifi h3 { margin-top: 0 !important; }
+        .card-delivery-promo { grid-column: span 1; grid-row: span 1; background: var(--glass-bg); backdrop-filter: blur(10px); }
+
+        /* =========================================
+           МЕНЮ И ИНТЕРАКТИВ
+        ========================================= */
+        .section-header {
+            text-align: center;
+            margin-bottom: 80px;
+        }
+
+        .section-header h2 {
+            font-size: 3.5rem;
+            margin-bottom: 16px;
+        }
+
+        .section-header p {
+            color: var(--color-laurel);
+            font-size: 1.2rem;
+        }
+
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 40px;
+        }
+
+        .menu-card {
+            background: rgba(251, 246, 240, 0.02);
+            border: 1px solid var(--glass-border);
+            border-radius: 32px;
+            padding: 24px;
+            display: flex;
+            flex-direction: column;
+            transition: var(--transition-smooth);
+            backdrop-filter: blur(10px);
+        }
+
+        .menu-card:hover {
+            border-color: var(--color-laurel);
+            background: rgba(251, 246, 240, 0.05);
+            transform: translateY(-5px);
+        }
+
+        .menu-image-wrapper {
+            border-radius: 20px;
+            overflow: hidden;
+            height: 240px;
+            margin-bottom: 24px;
+            position: relative;
+        }
+
+        .menu-image-wrapper img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.8s ease;
+        }
+
+        .menu-card:hover .menu-image-wrapper img {
+            transform: scale(1.08);
+        }
+
+        .menu-info h3 {
+            font-size: 1.8rem;
+            margin-bottom: 8px;
+        }
+
+        .menu-info p {
+            color: var(--color-laurel);
+            font-size: 0.95rem;
+            margin-bottom: 24px;
+            height: 48px;
+        }
+
+        /* Интерактивный селектор объема */
+        .size-selector {
+            display: flex;
+            background: rgba(13, 58, 53, 0.5);
+            border-radius: 100px;
+            padding: 4px;
+            margin-bottom: 24px;
+            border: 1px solid var(--glass-border);
+        }
+
+        .size-btn {
+            flex: 1;
+            background: transparent;
+            border: none;
+            color: var(--color-laurel);
+            padding: 10px 0;
+            border-radius: 100px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition-fast);
+        }
+
+        .size-btn.active {
+            background: var(--color-green);
+            color: var(--color-cream);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+        }
+
+        .menu-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: auto;
+        }
+
+        .price-container {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--color-cream);
+        }
+
+        /* Класс для анимации смены цены */
+        .price-animate {
+            animation: priceSwitch 0.4s ease-in-out forwards;
+        }
+
+        .add-to-cart {
+            background: var(--color-cream);
+            color: var(--color-deep);
+            border: none;
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: var(--transition-fast);
+        }
+
+        .add-to-cart:hover {
+            transform: scale(1.1) rotate(90deg);
+            background: var(--color-laurel);
+        }
+
+        /* =========================================
+           ЭКСПРЕСС-ДОСТАВКА
+        ========================================= */
+        .delivery-section {
+            background: linear-gradient(135deg, var(--color-green) 0%, var(--color-deep) 100%);
+            border-radius: 40px;
+            padding: 80px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            margin-bottom: 140px;
+        }
+
+        .delivery-section::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: url('https://www.transparenttextures.com/patterns/cubes.png');
+            opacity: 0.1;
+        }
+
+        .delivery-content {
+            position: relative;
+            z-index: 2;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .delivery-content h2 {
+            font-size: 3rem;
+            margin-bottom: 16px;
+        }
+
+        .delivery-content p {
+            color: rgba(251, 246, 240, 0.8);
+            font-size: 1.1rem;
+            margin-bottom: 40px;
+        }
+
+        .delivery-form {
+            display: flex;
+            gap: 16px;
+            background: rgba(13, 58, 53, 0.4);
+            padding: 12px;
+            border-radius: 100px;
+            border: 1px solid rgba(251, 246, 240, 0.2);
+            backdrop-filter: blur(10px);
+        }
+
+        .delivery-form input {
+            flex: 1;
+            background: transparent;
+            border: none;
+            color: var(--color-cream);
+            font-family: 'Inter', sans-serif;
+            font-size: 1rem;
+            padding: 0 24px;
+            outline: none;
+        }
+
+        .delivery-form input::placeholder {
+            color: var(--color-laurel);
+        }
+
+        .btn-check {
+            background: var(--color-laurel);
+            color: var(--color-deep);
+            border: none;
+            padding: 16px 40px;
+            border-radius: 100px;
+            font-weight: 700;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: var(--transition-fast);
+        }
+
+        .btn-check:hover {
+            background: var(--color-cream);
+            transform: scale(1.02);
+        }
+
+        .delivery-status {
+            margin-top: 24px;
+            font-size: 1.1rem;
+            font-weight: 500;
+            height: 24px;
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+
+        .delivery-status.success {
+            color: #4ade80; /* Ярко-зеленый для успеха */
+            opacity: 1;
+        }
+
+        /* =========================================
+           ФУТЕР
+        ========================================= */
+        footer {
+            border-top: 1px solid var(--glass-border);
+            padding: 60px 0;
+            text-align: center;
+        }
+        
+        .footer-logo {
+            font-size: 2rem;
+            color: var(--color-cream);
+            margin-bottom: 24px;
+        }
+
+        .footer-text {
+            color: var(--color-laurel);
+            font-size: 0.9rem;
+        }
+
+        /* =========================================
+           АДАПТИВНОСТЬ
+        ========================================= */
+        @media (max-width: 1024px) {
+            .about-section { grid-template-columns: 1fr; gap: 40px; }
+            .bento-grid { grid-template-columns: repeat(2, 1fr); }
+            .card-roastery { grid-column: span 2; }
+            .card-arabica { grid-column: span 2; }
+            .card-wifi, .card-delivery-promo { grid-column: span 1; }
+            .delivery-section { padding: 60px 40px; }
+        }
+        @media (max-width: 768px) {
+            header.navbar {
+                padding: 16px 20px;
+                flex-wrap: wrap;
+                gap: 12px;
+            }
+            .nav-links {
+                display: flex !important;
+                flex-wrap: nowrap;
+                gap: 10px;
+                overflow-x: auto !important;
+                transform: none !important;
+                margin-left: 0 !important;
+                padding: 6px 0 !important;
+                -webkit-overflow-scrolling: touch;
+            }
+            .nav-links::-webkit-scrollbar {
+                display: none;
+            }
+            .nav-links a {
+                font-size: 0.85rem;
+                padding: 6px 10px;
+                white-space: nowrap;
+            }
+            .hero-headline {
+                min-height: auto;
+                gap: 1.2rem;
+                margin-bottom: 1rem;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            .hero-part {
+                font-size: clamp(3rem, 9vw, 4rem) !important;
+            }
+            .model-container {
+                position: relative;
+                width: 100% !important;
+                max-width: 320px !important;
+                height: 280px !important;
+                transform: none !important;
+                margin: 0 auto;
+                top: auto;
+                left: auto;
+            }
+            .model-container model-viewer {
+                width: 100%;
+                height: 100%;
+            }
+            .hero-content-bottom {
+                margin-top: 1rem;
+                padding: 0 15px;
+                text-align: center;
+            }
+            .bento-grid {
+                grid-template-columns: 1fr !important;
+                grid-auto-rows: auto;
+                gap: 20px;
+            }
+            .container {
+                padding: 0 16px !important;
+            }
+            .bento-card {
+                width: 100% !important;
+            }
+            .about-section {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+            .card-roastery,
+            .card-arabica,
+            .card-wifi,
+            .card-delivery-promo {
+                grid-column: span 1;
+                grid-row: auto;
+                min-height: auto;
+            }
+            .delivery-form {
+                flex-direction: column;
+                border-radius: 24px;
+                padding: 20px;
+            }
+            .btn-check {
+                width: 100%;
+            }
+            .section-padding {
+                padding: 90px 0 !important;
+            }
+        }
+
+        @media (max-width: 768px) {
+            /* Strong mobile override: keep PC styling but stack vertically */
+            html, body { font-size: 16px; }
+            header.navbar {
+                flex-direction: column;
+                align-items: stretch;
+                gap: 14px;
+                padding: 16px 20px !important;
+            }
+            .nav-logo {
+                width: 100%;
+                justify-content: center;
+                text-align: center;
+            }
+            .nav-links {
+                display: flex !important;
+                flex-wrap: wrap !important;
+                justify-content: center !important;
+                gap: 10px !important;
+                overflow-x: auto !important;
+                max-width: 100% !important;
+                transform: none !important;
+                margin: 0 auto !important;
+                padding: 6px 0 !important;
+            }
+            .nav-links::-webkit-scrollbar { display: none; }
+            .nav-links a {
+                white-space: nowrap !important;
+                font-size: 0.92rem !important;
+                padding: 6px 10px !important;
+            }
+            .cart-btn {
+                align-self: center;
+                padding: 10px 18px !important;
+                width: auto !important;
+            }
+            .hero-headline {
+                flex-direction: column !important;
+                align-items: center !important;
+                justify-content: center !important;
+                gap: 1rem !important;
+                min-height: auto !important;
+                width: 100% !important;
+                max-width: 100% !important;
+                margin-bottom: 1rem !important;
+            }
+            .hero-part {
+                font-size: clamp(3rem, 9vw, 4rem) !important;
+                white-space: normal !important;
+                text-align: center !important;
+            }
+            .hero-part:last-child {
+                transform: none !important;
+            }
+            .model-container {
+                position: relative !important;
+                width: min(100%, 320px) !important;
+                height: 280px !important;
+                transform: none !important;
+                margin: 0 auto !important;
+                top: auto !important;
+                left: auto !important;
+            }
+            .model-container model-viewer {
+                width: 100% !important;
+                height: 100% !important;
+            }
+            .hero-content-bottom {
+                margin-top: 1rem !important;
+                padding: 0 16px !important;
+                text-align: center !important;
+                width: 100% !important;
+            }
+            .hero p, .about-content p {
+                padding: 0 16px !important;
+                text-align: center !important;
+            }
+            .bento-grid {
+                grid-template-columns: 1fr !important;
+                grid-auto-rows: auto !important;
+                gap: 24px !important;
+            }
+            .bento-card {
+                width: 100% !important;
+                max-width: 100% !important;
+            }
+            .container {
+                padding: 0 16px !important;
+            }
+            .about-section {
+                grid-template-columns: 1fr !important;
+                gap: 30px !important;
+            }
+            .card-roastery,
+            .card-arabica,
+            .card-wifi,
+            .card-delivery-promo {
+                grid-column: span 1 !important;
+                grid-row: auto !important;
+                min-height: auto !important;
+            }
+            .section-padding {
+                padding: 90px 0 !important;
+            }
+            .btn-primary {
+                width: 100% !important;
+                max-width: 320px !important;
+                margin: 0 auto !important;
+            }
+        }
+
+            </style>
+
+            <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
+</head>
+<body>
+
+            <div id="preloader">
+                <div class="loader-logo">STARBUCKS</div>
+                <div class="loader-spinner"></div>
+            </div>
+
+            <!-- Фоновые переливы -->
+    <div class="bg-glow-container">
+        <div class="glow-blob glow-1"></div>
+        <div class="glow-blob glow-2"></div>
+    </div>
+
+    <!-- Навигация -->
+    <header class="navbar" id="navbar">
+        <div class="nav-logo brand-font">
+            <span>R</span> Starbucks
+        </div>
+        <nav class="nav-links">
+            <a href="#about">Атмосфера</a>
+            <a href="#bento">Философия</a>
+            <a href="#menu">Резерв Меню</a>
+            <a href="#delivery">Доставка</a>
+        </nav>
+        <button class="cart-btn" id="cart-btn">
+            Корзина <div class="cart-count" id="cart-count">0</div>
+        </button>
+    </header>
+
+    <!-- Главный экран -->
+    <section class="hero">
+        <span class="tashkent-tag">TASHKENT EXCLUSIVE</span>
+        <div class="hero-headline">
+            <span class="hero-part">COF</span>
+            <div class="model-container" role="img" aria-label="3D coffee cup model">
+                <model-viewer src="./source/STARBUCKS_COFFEE.glb" alt="3D coffee cup model" auto-rotate rotation-per-second="20deg" auto-rotate-delay="0" loading="eager" reveal="auto" seamless-poster shadow-intensity="1" interaction-prompt="none" style="width:100%;height:100%;background:transparent;"></model-viewer>
+            </div>
+            <span class="hero-part">FEE</span>
+        </div>
+
+        <div class="hero-content-bottom reveal active" style="transition-delay: 0.2s;">
+            <p>Погрузитесь в мир премиальной обжарки и безупречного вкуса в самом сердце Ташкента или закажите экспресс-доставку прямо к вашей двери.</p>
+            <a href="#menu" class="btn-primary">Смотреть меню</a>
+        </div>
+    </section>
+
+    <!-- О Кофейне -->
+    <section id="about" class="container section-padding">
+        <div class="about-section">
+            <div class="about-image reveal">
+                <img src="./images/about-replacement.png" alt="Cafe Interior">
+            </div>
+            <div class="about-content reveal" style="transition-delay: 0.2s;">
+                <h2 class="brand-font">Место силы<br>и вдохновения</h2>
+                <p>Наша флагманская кофейня создана для тех, кто ценит эстетику в каждой детали. Глубокие изумрудные тона, натуральное дерево и мягкий свет создают идеальную атмосферу для деловых встреч, неспешных выходных или продуктивной работы.</p>
+                <p>Мы привезли в Ташкент концепцию Reserve — это означает доступ к самым редким сортам кофе со всего мира, которые обжариваются малыми партиями.</p>
+                <div class="location-tag">
+                    📍 Мирабадский район / Tashkent City
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Bento Grid (Философия) -->
+    <section id="bento" class="bento-section section-padding">
+        <div class="container">
+            <div class="section-header reveal">
+                <h2 class="brand-font">Наша Философия</h2>
+                <p>Почему Starbucks Reserve — это больше, чем просто кофе.</p>
+            </div>
+            
+            <div class="bento-grid">
+                <!-- Большая карточка с картинкой (Обжарка) -->
+                <div class="bento-card card-roastery reveal">
+                    <img src="https://images.unsplash.com/photo-1611162458324-aae1eb4129a4?auto=format&fit=crop&w=1400&q=80" alt="Roasting" class="bento-img">
+                    <div class="bento-overlay"></div>
+                    <div class="bento-content">
+                        <h3 class="brand-font">Магия Обжарки</h3>
+                        <p>Наши мастера вручную контролируют процесс раскрытия вкуса каждого зерна, создавая уникальный профиль.</p>
+                    </div>
+                </div>
+
+                <!-- Текстовая карточка (Арабика) -->
+                <div class="bento-card card-arabica reveal" style="transition-delay: 0.1s;">
+                    <div class="bento-content">
+                        <h3 class="brand-font">100% Arabica<br>Single Origin</h3>
+                        <p style="margin-top: 16px;">Мы используют только высокогорную Арабику класса Specialty. От Эфиопии до Колумбии — вы чувствуете терруар в каждой чашке.</p>
+                    </div>
+                </div>
+
+                <!-- Малая карточка 1 -->
+                <div class="bento-card card-wifi reveal">
+                    <div class="bento-content">
+                        <h3 class="brand-font" style="font-size: 1.5rem;">Wi-Fi 1000 Mbps</h3>
+                        <p style="margin-top: 12px; font-weight: 500;">Идеальное пространство для цифровых кочевников. Работай без задержек.</p>
+                    </div>
+                </div>
+
+                <!-- Малая карточка 2 -->
+                <div class="bento-card card-delivery-promo reveal" style="transition-delay: 0.1s;">
+                    <div class="bento-content">
+                        <h3 class="brand-font" style="font-size: 1.5rem;">Термо-Сумки</h3>
+                        <p style="margin-top: 12px;">Доставка с сохранением температуры до 95°C. Как будто бариста передал кофе лично вам.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Интерактивное Меню -->
+    <section id="menu" class="container section-padding">
+        <div class="section-header reveal">
+            <h2 class="brand-font">Эксклюзивное Меню</h2>
+            <p>Выберите напиток и идеальный объем. Цены указаны в UZS.</p>
+        </div>
+
+        <div class="menu-grid">
+            
+            <!-- Товар 1 -->
+            <div class="menu-card reveal">
+                <div class="menu-image-wrapper">
+                    <img src="https://images.unsplash.com/photo-1510591509098-f4fdc6d0ff04?auto=format&fit=crop&w=1400&q=80" alt="Эспрессо">
+                </div>
+                <div class="menu-info">
+                    <h3 class="brand-font">Reserve Эспрессо</h3>
+                    <p>Густой, насыщенный шот с плотной крема и нотами темного шоколада.</p>
+                </div>
+                <!-- data-prices хранит цены в формате JSON для легкого доступа через JS -->
+                <div class="size-selector" data-target="price-1">
+                    <button class="size-btn active" data-price="25000">0.2 л</button>
+                    <button class="size-btn" data-price="35000">0.3 л</button>
+                    <button class="size-btn" data-price="45000">0.4 л</button>
+                </div>
+                <div class="menu-footer">
+                    <div class="price-container">
+                        <span id="price-1">25 000</span> <span>UZS</span>
+                    </div>
+                    <button class="add-to-cart" title="Добавить в корзину">+</button>
+                </div>
+            </div>
+
+            <!-- Товар 2 -->
+            <div class="menu-card reveal" style="transition-delay: 0.1s;">
+                <div class="menu-image-wrapper">
+                    <img src="https://images.unsplash.com/photo-1534778101976-62847782c213?auto=format&fit=crop&w=1400&q=80" alt="Капучино">
+                </div>
+                <div class="menu-info">
+                    <h3 class="brand-font">Шелковый Капучино</h3>
+                    <p>Идеальный баланс эспрессо и микропены из фермерского молока.</p>
+                </div>
+                <div class="size-selector" data-target="price-2">
+                    <button class="size-btn active" data-price="35000">0.2 л</button>
+                    <button class="size-btn" data-price="45000">0.3 л</button>
+                    <button class="size-btn" data-price="55000">0.4 л</button>
+                </div>
+                <div class="menu-footer">
+                    <div class="price-container">
+                        <span id="price-2">35 000</span> <span>UZS</span>
+                    </div>
+                    <button class="add-to-cart" title="Добавить в корзину">+</button>
+                </div>
+            </div>
+
+            <!-- Товар 3 -->
+            <div class="menu-card reveal" style="transition-delay: 0.2s;">
+                <div class="menu-image-wrapper">
+                    <img src="https://images.unsplash.com/photo-1572442388796-11668a67e53d?auto=format&fit=crop&w=1400&q=80" alt="Флэт Уайт">
+                </div>
+                <div class="menu-info">
+                    <h3 class="brand-font">Карамельный Флэт Уайт</h3>
+                    <p>Двойной ристретто, тонкая пена и наша авторская соленая карамель.</p>
+                </div>
+                <div class="size-selector" data-target="price-3">
+                    <button class="size-btn active" data-price="38000">0.2 л</button>
+                    <button class="size-btn" data-price="48000">0.3 л</button>
+                    <button class="size-btn" data-price="58000">0.4 л</button>
+                </div>
+                <div class="menu-footer">
+                    <div class="price-container">
+                        <span id="price-3">38 000</span> <span>UZS</span>
+                    </div>
+                    <button class="add-to-cart" title="Добавить в корзину">+</button>
+                </div>
+            </div>
+
+            <!-- Товар 4 -->
+            <div class="menu-card reveal" style="transition-delay: 0.3s;">
+                <div class="menu-image-wrapper">
+                    <img src="https://images.unsplash.com/photo-1497935586351-b67a49e012bf?auto=format&fit=crop&w=1400&q=80" alt="Колд Брю">
+                </div>
+                <div class="menu-info">
+                    <h3 class="brand-font">Нитро Колд Брю</h3>
+                    <p>Холодная экстракция 24 часа. Насыщен азотом для бархатистой текстуры.</p>
+                </div>
+                <div class="size-selector" data-target="price-4">
+                    <button class="size-btn active" data-price="42000">0.2 л</button>
+                    <button class="size-btn" data-price="52000">0.3 л</button>
+                    <button class="size-btn" data-price="62000">0.4 л</button>
+                </div>
+                <div class="menu-footer">
+                    <div class="price-container">
+                        <span id="price-4">42 000</span> <span>UZS</span>
+                    </div>
+                    <button class="add-to-cart" title="Добавить в корзину">+</button>
+                </div>
+            </div>
+            
+        </div>
+    </section>
+
+    <!-- Экспресс Доставка -->
+    <section id="delivery" class="container">
+        <div class="delivery-section reveal">
+            <div class="delivery-content">
+                <h2 class="brand-font">15 Минут до идеала</h2>
+                <p>Введите ваш адрес в Ташкенте (улица, дом), чтобы проверить, находитесь ли вы в зеленой зоне экспресс-доставки.</p>
+                
+                <div class="delivery-form">
+                    <input type="text" id="address-input" placeholder="Например: Мирабад, ул. Тараса Шевченко 21">
+                    <button class="btn-check" id="check-btn">Проверить адрес</button>
+                </div>
+                <div class="delivery-status" id="delivery-msg"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Футер -->
+    <footer>
+        <div class="container">
+            <div class="footer-logo brand-font">R Starbucks Tashkent</div>
+            <p class="footer-text">© 2026 Starbucks Reserve Premium Concept. Создано для портфолио.</p>
+        </div>
+    </footer>
+
+    <!-- =========================================
+         JAVASCRIPT ЛОГИКА
+    ========================================= -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            
+            // 1. Анимация появления элементов при скролле (Scroll Reveal)
+            const revealElements = document.querySelectorAll('.reveal');
+            
+            const revealObserver = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('active');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, {
+                root: null,
+                threshold: 0.1, // Триггер, когда 10% элемента видно
+                rootMargin: "0px 0px -50px 0px"
+            });
+
+            revealElements.forEach(el => revealObserver.observe(el));
+
+            // Триггер для элементов, которые уже в видимой зоне при загрузке
+            setTimeout(() => {
+                revealElements.forEach(el => {
+                    const rect = el.getBoundingClientRect();
+                    if(rect.top < window.innerHeight) {
+                        el.classList.add('active');
+                    }
+                });
+            }, 100);
+
+
+            // 2. Эффект Blur и изменение Navbar при скролле
+            const navbar = document.getElementById('navbar');
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 50) {
+                    navbar.classList.add('scrolled');
+                } else {
+                    navbar.classList.remove('scrolled');
+                }
+            });
+
+
+            // 3. Интерактивное меню: Смена размера и цены с CSS-анимацией
+            const sizeSelectors = document.querySelectorAll('.size-selector');
+            
+            // Функция форматирования числа (добавляет пробелы тысяч: 25000 -> 25 000)
+            const formatPrice = (price) => {
+                return parseInt(price).toLocaleString('ru-RU');
+            };
+
+            sizeSelectors.forEach(selector => {
+                const buttons = selector.querySelectorAll('.size-btn');
+                const targetId = selector.getAttribute('data-target');
+                const priceElement = document.getElementById(targetId);
+
+                buttons.forEach(btn => {
+                    btn.addEventListener('click', (e) => {
+                        // Убираем active у всех кнопок в этой группе
+                        buttons.forEach(b => b.classList.remove('active'));
+                        // Добавляем active нажатой кнопке
+                        const currentBtn = e.target;
+                        currentBtn.classList.add('active');
+
+                        // Получаем новую цену
+                        const newPrice = currentBtn.getAttribute('data-price');
+
+                        // Запускаем CSS анимацию смены цены
+                        priceElement.classList.remove('price-animate');
+                        
+                        // Force reflow (чтобы анимация перезапустилась)
+                        void priceElement.offsetWidth;
+                        
+                        priceElement.classList.add('price-animate');
+
+                        // Меняем цифру на середине анимации (200ms) для плавного перехода
+                        setTimeout(() => {
+                            priceElement.textContent = formatPrice(newPrice);
+                        }, 200);
+                    });
+                });
+            });
+
+
+            // 4. Логика корзины (Счетчик и микро-анимация)
+            let cartItemsCount = 0;
+            const cartBtn = document.getElementById('cart-btn');
+            const cartCountDisplay = document.getElementById('cart-count');
+            const addToCartBtns = document.querySelectorAll('.add-to-cart');
+
+            addToCartBtns.forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    
+                    // Увеличиваем счетчик
+                    cartItemsCount++;
+                    cartCountDisplay.textContent = cartItemsCount;
+                    
+                    // Перезапускаем анимацию кнопки "Pop"
+                    cartBtn.classList.remove('animating');
+                    void cartBtn.offsetWidth; // Force reflow
+                    cartBtn.classList.add('animating');
+
+                    // Визуальный отклик на кнопке "+"
+                    const originalText = btn.innerHTML;
+                    btn.innerHTML = '✓';
+                    btn.style.background = 'var(--color-green)';
+                    btn.style.color = 'var(--color-cream)';
+                    btn.style.transform = 'scale(1) rotate(0)';
+                    
+                    setTimeout(() => {
+                        btn.innerHTML = originalText;
+                        btn.style.background = '';
+                        btn.style.color = '';
+                    }, 1000);
+                });
+            });
+
+
+            // 5. Логика формы экспресс-доставки
+            const checkBtn = document.getElementById('check-btn');
+            const addressInput = document.getElementById('address-input');
+            const deliveryMsg = document.getElementById('delivery-msg');
+
+            checkBtn.addEventListener('click', () => {
+                const val = addressInput.value.trim();
+                
+                if (val.length < 5) {
+                    deliveryMsg.textContent = 'Пожалуйста, введите полный адрес.';
+                    deliveryMsg.className = 'delivery-status'; // Сброс классов
+                    deliveryMsg.style.color = '#fca5a5'; // Красный оттенок ошибки
+                    deliveryMsg.style.opacity = '1';
+                    return;
+                }
+
+                // Симуляция загрузки
+                checkBtn.textContent = 'Проверяем...';
+                checkBtn.style.pointerEvents = 'none';
+                deliveryMsg.style.opacity = '0';
+
+                setTimeout(() => {
+                    checkBtn.textContent = 'Проверить адрес';
+                    checkBtn.style.pointerEvents = 'auto';
+                
+                    // Вывод успеха
+                    deliveryMsg.className = 'delivery-status success';
+                    deliveryMsg.textContent = '✨ Отлично! Вы в зоне доставки. Привезем за 15 минут.';
+                
+                    // Можно очистить инпут по желанию
+                    // addressInput.value = '';
+                }, 1200);
+            });
+
+            // 6. Отключение service worker, если он мог быть зарегистрирован ранее
+            if ('serviceWorker' in navigator) {
+                navigator.serviceWorker.getRegistrations().then(registrations => {
+                    registrations.forEach(registration => {
+                        registration.unregister();
+                    });
+                }).catch(() => {
+                    // ignore failures
+                });
+            }
+
+            // 7. Плавный переход по якорям без перезагрузки
+            const anchorLinks = document.querySelectorAll('a[href^="#"]');
+            anchorLinks.forEach(link => {
+                link.addEventListener('click', (event) => {
+                    event.preventDefault();
+                    const targetId = link.getAttribute('href').substring(1);
+                    const target = targetId ? document.getElementById(targetId) : document.body;
+                    if (target) {
+                        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                        if (targetId) {
+                            history.replaceState(null, '', `#${targetId}`);
+                        }
+                    }
+                });
+            });
+
+            // 8. Прелоадер для 3D модели
+            const preloader = document.getElementById('preloader');
+            const modelViewer = document.querySelector('model-viewer');
+            const hidePreloader = () => {
+                if (!preloader || preloader.classList.contains('hidden')) return;
+                preloader.classList.add('hidden');
+                setTimeout(() => {
+                    if (preloader.parentNode) {
+                        preloader.parentNode.removeChild(preloader);
+                    }
+                }, 500);
+            };
+
+            if (modelViewer) {
+                modelViewer.addEventListener('load', hidePreloader);
+                modelViewer.addEventListener('error', hidePreloader);
+            }
+
+            window.addEventListener('load', () => {
+                setTimeout(hidePreloader, 1200);
+            });
+        });
+        </script>
+
+</body></html>
