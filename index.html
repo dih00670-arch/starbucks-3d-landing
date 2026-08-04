@@ -600,9 +600,8 @@
 
         /* High-quality rendering for the main Starbucks image */
         .about-image img {
-            image-rendering: -webkit-optimize-contrast;
-            image-rendering: crisp-edges;
-            width: 100%;
+            image-rendering: auto;
+            max-width: 100%;
             height: auto;
             object-fit: cover;
             display: block;
@@ -1054,7 +1053,7 @@
             <div class="about-image reveal">
                 <picture>
                     <source type="image/webp" srcset="./images/about-replacement.webp 399w, ./images/about-replacement@2x.webp 798w" sizes="(max-width: 768px) 100vw, 600px">
-                    <img src="source/starbucks_4k.jpg" srcset="source/starbucks_4k.jpg 1x" sizes="(max-width: 768px) 100vw, 600px" alt="Starbucks 4K" loading="lazy" width="928" height="1152" style="display:block; width:100%; height:auto; object-fit:cover;">
+                    <img src="source/starbucks_4k.jpg?v=2" srcset="source/starbucks_4k.jpg?v=2 1x" sizes="(max-width: 768px) 100vw, 600px" alt="Starbucks 4K" loading="lazy" width="928" height="1152" style="display:block; width:100%; height:auto; object-fit:cover;">
                 </picture>
             </div>
             <div class="about-content reveal">
