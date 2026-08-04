@@ -22,8 +22,8 @@
             
             --glass-bg: rgba(39, 97, 82, 0.15);
             --glass-border: rgba(177, 183, 171, 0.2);
-            --transition-smooth: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
-            --transition-fast: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            --transition-smooth: all 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+            --transition-fast: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         /* =========================================
@@ -46,6 +46,7 @@
             line-height: 1.6;
             overflow-x: hidden;
             -webkit-font-smoothing: antialiased;
+            overscroll-behavior-y: auto;
         }
 
         #preloader {
@@ -170,14 +171,27 @@
         .reveal {
             opacity: 0;
             visibility: hidden;
-            transition: var(--transition-smooth);
-            transform: translateY(60px);
+            transform: translateY(28px) scale(0.97);
+            transition: opacity 0.8s ease-out, transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+            will-change: transform, opacity;
         }
         
         .reveal.active {
             opacity: 1;
             visibility: visible;
-            transform: translateY(0);
+            transform: translateY(0) scale(1);
+        }
+
+        .bento-card, .menu-card {
+            opacity: 0;
+            transform: translateY(24px) scale(0.97);
+            transition: opacity 0.8s ease-out, transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+            will-change: transform, opacity;
+        }
+
+        .bento-card.in-view, .menu-card.in-view {
+            opacity: 1;
+            transform: translateY(0) scale(1);
         }
 
         /* =========================================
@@ -581,19 +595,26 @@
             position: relative;
             border-radius: 24px;
             overflow: hidden;
-            aspect-ratio: 4/5;
+            aspect-ratio: 928 / 1152;
+        }
+
+        /* High-quality rendering for the main Starbucks image */
+        .about-image img {
+            image-rendering: -webkit-optimize-contrast;
+            image-rendering: crisp-edges;
+            width: 100%;
+            height: auto;
+            object-fit: cover;
+            display: block;
         }
 
         .about-image img {
+            display: block;
             width: 100%;
             height: 100%;
             object-fit: cover;
-            transition: var(--transition-smooth);
         }
 
-        .about-image:hover img {
-            transform: scale(1.05);
-        }
 
         .about-image::after {
             content: '';
@@ -653,7 +674,7 @@
             display: flex;
             flex-direction: column;
             justify-content: flex-end;
-            transition: var(--transition-smooth);
+            transition: opacity 0.8s ease-out, transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
             border: 1px solid var(--glass-border);
         }
 
@@ -666,12 +687,9 @@
             top: 0; left: 0; width: 100%; height: 100%;
             object-fit: cover;
             z-index: 1;
-            transition: transform 1s ease;
+            transition: filter 0.8s ease, opacity 0.8s ease;
         }
 
-        .bento-card:hover .bento-img {
-            transform: scale(1.1);
-        }
 
         .bento-overlay {
             position: absolute;
@@ -738,7 +756,7 @@
             padding: 24px;
             display: flex;
             flex-direction: column;
-            transition: var(--transition-smooth);
+            transition: opacity 0.8s ease-out, transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
             backdrop-filter: blur(10px);
         }
 
@@ -760,12 +778,9 @@
             width: 100%;
             height: 100%;
             object-fit: cover;
-            transition: transform 0.8s ease;
+            transition: filter 0.8s ease, opacity 0.8s ease;
         }
 
-        .menu-card:hover .menu-image-wrapper img {
-            transform: scale(1.08);
-        }
 
         .menu-info h3 {
             font-size: 1.8rem;
@@ -1027,7 +1042,7 @@
             <span class="hero-part">FEE</span>
         </div>
 
-        <div class="hero-content-bottom reveal active" style="transition-delay: 0.2s;">
+        <div class="hero-content-bottom reveal">
             <p>Погрузитесь в мир премиальной обжарки и безупречного вкуса в самом сердце Ташкента или закажите экспресс-доставку прямо к вашей двери.</p>
             <a href="#menu" class="btn-primary">Смотреть меню</a>
         </div>
@@ -1037,9 +1052,12 @@
     <section id="about" class="container section-padding">
         <div class="about-section">
             <div class="about-image reveal">
-                <img src="./images/about-replacement.png" alt="Cafe Interior">
+                <picture>
+                    <source type="image/webp" srcset="./images/about-replacement.webp 399w, ./images/about-replacement@2x.webp 798w" sizes="(max-width: 768px) 100vw, 600px">
+                    <img src="source/starbucks_4k.jpg" srcset="source/starbucks_4k.jpg 1x" sizes="(max-width: 768px) 100vw, 600px" alt="Starbucks 4K" loading="lazy" width="928" height="1152" style="display:block; width:100%; height:auto; object-fit:cover;">
+                </picture>
             </div>
-            <div class="about-content reveal" style="transition-delay: 0.2s;">
+            <div class="about-content reveal">
                 <h2 class="brand-font">Место силы<br>и вдохновения</h2>
                 <p>Наша флагманская кофейня создана для тех, кто ценит эстетику в каждой детали. Глубокие изумрудные тона, натуральное дерево и мягкий свет создают идеальную атмосферу для деловых встреч, неспешных выходных или продуктивной работы.</p>
                 <p>Мы привезли в Ташкент концепцию Reserve — это означает доступ к самым редким сортам кофе со всего мира, которые обжариваются малыми партиями.</p>
@@ -1070,7 +1088,7 @@
                 </div>
 
                 <!-- Текстовая карточка (Арабика) -->
-                <div class="bento-card card-arabica reveal" style="transition-delay: 0.1s;">
+                <div class="bento-card card-arabica reveal">
                     <div class="bento-content">
                         <h3 class="brand-font">100% Arabica<br>Single Origin</h3>
                         <p style="margin-top: 16px;">Мы используют только высокогорную Арабику класса Specialty. От Эфиопии до Колумбии — вы чувствуете терруар в каждой чашке.</p>
@@ -1086,7 +1104,7 @@
                 </div>
 
                 <!-- Малая карточка 2 -->
-                <div class="bento-card card-delivery-promo reveal" style="transition-delay: 0.1s;">
+                <div class="bento-card card-delivery-promo reveal">
                     <div class="bento-content">
                         <h3 class="brand-font" style="font-size: 1.5rem;">Термо-Сумки</h3>
                         <p style="margin-top: 12px;">Доставка с сохранением температуры до 95°C. Как будто бариста передал кофе лично вам.</p>
@@ -1129,7 +1147,7 @@
             </div>
 
             <!-- Товар 2 -->
-            <div class="menu-card reveal" style="transition-delay: 0.1s;">
+            <div class="menu-card reveal">
                 <div class="menu-image-wrapper">
                     <img src="https://images.unsplash.com/photo-1534778101976-62847782c213?auto=format&fit=crop&w=1400&q=80" alt="Капучино">
                 </div>
@@ -1151,7 +1169,7 @@
             </div>
 
             <!-- Товар 3 -->
-            <div class="menu-card reveal" style="transition-delay: 0.2s;">
+            <div class="menu-card reveal">
                 <div class="menu-image-wrapper">
                     <img src="https://images.unsplash.com/photo-1572442388796-11668a67e53d?auto=format&fit=crop&w=1400&q=80" alt="Флэт Уайт">
                 </div>
@@ -1173,7 +1191,7 @@
             </div>
 
             <!-- Товар 4 -->
-            <div class="menu-card reveal" style="transition-delay: 0.3s;">
+            <div class="menu-card reveal">
                 <div class="menu-image-wrapper">
                     <img src="https://images.unsplash.com/photo-1497935586351-b67a49e012bf?auto=format&fit=crop&w=1400&q=80" alt="Колд Брю">
                 </div>
@@ -1228,33 +1246,38 @@
         document.addEventListener('DOMContentLoaded', () => {
             
             // 1. Анимация появления элементов при скролле (Scroll Reveal)
-            const revealElements = document.querySelectorAll('.reveal');
+            const revealElements = document.querySelectorAll('.reveal, .bento-card, .menu-card');
+
+            const toggleReveal = (el, isVisible) => {
+                if (isVisible) {
+                    el.classList.add('active');
+                    el.classList.add('in-view');
+                } else {
+                    el.classList.remove('active');
+                    el.classList.remove('in-view');
+                }
+            };
             
-            const revealObserver = new IntersectionObserver((entries, observer) => {
+            const revealObserver = new IntersectionObserver((entries) => {
                 entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.classList.add('active');
-                        observer.unobserve(entry.target);
-                    }
+                    toggleReveal(entry.target, entry.isIntersecting);
                 });
             }, {
                 root: null,
-                threshold: 0.1, // Триггер, когда 10% элемента видно
-                rootMargin: "0px 0px -50px 0px"
+                threshold: 0.15,
+                rootMargin: "0px 0px -5% 0px"
             });
 
             revealElements.forEach(el => revealObserver.observe(el));
 
-            // Триггер для элементов, которые уже в видимой зоне при загрузке
-            setTimeout(() => {
+            requestAnimationFrame(() => {
                 revealElements.forEach(el => {
                     const rect = el.getBoundingClientRect();
-                    if(rect.top < window.innerHeight) {
-                        el.classList.add('active');
+                    if (rect.top < window.innerHeight && rect.bottom > 0) {
+                        toggleReveal(el, true);
                     }
                 });
-            }, 100);
-
+            });
 
             // 2. Эффект Blur и изменение Navbar при скролле
             const navbar = document.getElementById('navbar');
@@ -1404,9 +1427,11 @@
                 });
             });
 
-            // 8. Прелоадер для 3D модели
+            // 8. Прелоадер для 3D модели (надёжный)
             const preloader = document.getElementById('preloader');
             const modelViewer = document.querySelector('model-viewer');
+            let modelHasLoaded = false;
+
             const hidePreloader = () => {
                 if (!preloader || preloader.classList.contains('hidden')) return;
                 preloader.classList.add('hidden');
@@ -1418,14 +1443,52 @@
             };
 
             if (modelViewer) {
-                modelViewer.addEventListener('load', hidePreloader);
-                modelViewer.addEventListener('error', hidePreloader);
+                modelViewer.addEventListener('load', () => {
+                    modelHasLoaded = true;
+                    hidePreloader();
+                });
+                modelViewer.addEventListener('error', () => {
+                    modelHasLoaded = true;
+                    hidePreloader();
+                });
+                modelViewer.addEventListener('progress', (evt) => {
+                    try {
+                        const d = evt && evt.detail;
+                        if (d && ((d.progress && d.progress >= 1) || (d.loaded && d.total && d.loaded >= d.total))) {
+                            modelHasLoaded = true;
+                            hidePreloader();
+                        }
+                    } catch (e) {}
+                });
             }
 
+            (function modelWatchdog(){
+                const start = Date.now();
+                const timeout = 15000;
+                const interval = 250;
+                const id = setInterval(() => {
+                    try {
+                        if (modelHasLoaded) { clearInterval(id); return; }
+                        if (modelViewer && modelViewer.model) {
+                            modelHasLoaded = true;
+                            hidePreloader();
+                            clearInterval(id);
+                            return;
+                        }
+                    } catch (e) {}
+                    if (Date.now() - start > timeout) {
+                        clearInterval(id);
+                        hidePreloader();
+                    }
+                }, interval);
+            })();
+
             window.addEventListener('load', () => {
-                setTimeout(hidePreloader, 1200);
+                if (modelHasLoaded) hidePreloader();
             });
+
         });
-        </script>
+
+</script>
 
 </body></html>
