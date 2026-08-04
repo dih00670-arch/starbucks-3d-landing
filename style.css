@@ -1,0 +1,66 @@
+/* =========================================
+   МОБИЛЬНЫЙ АДАПТИВ
+========================================= */
+@media screen and (max-width: 768px) {
+    .navbar {
+        padding: 12px 16px !important;
+        flex-wrap: wrap;
+    }
+    .nav-links {
+        display: flex;
+        gap: 12px;
+        overflow-x: auto;
+        max-width: 100%;
+        padding: 8px 0;
+    }
+
+    .hero-headline {
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: center !important;
+        justify-content: center !important;
+        gap: 0 !important;
+        position: relative !important;
+    }
+
+    .hero-part {
+        font-size: clamp(2.5rem, 12vw, 4rem) !important;
+        text-align: center;
+    }
+
+    .model-container {
+        position: relative !important;
+        top: auto !important;
+        left: auto !important;
+        transform: none !important;
+        width: 280px !important;
+        height: 320px !important;
+        margin: 10px 0 !important;
+    }
+
+    .bento-grid {
+        display: grid !important;
+        grid-template-columns: 1fr !important;
+        gap: 16px !important;
+    }
+
+    .bento-card {
+        grid-column: span 1 !important;
+        grid-row: auto !important;
+        min-height: auto !important;
+    }
+
+    .menu-grid {
+        grid-template-columns: 1fr !important;
+    }
+
+    .delivery-form {
+        flex-direction: column !important;
+        width: 100% !important;
+    }
+
+    .delivery-form input, 
+    .btn-check {
+        width: 100% !important;
+    }
+}
