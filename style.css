@@ -2,41 +2,73 @@
    МОБИЛЬНЫЙ АДАПТИВ
 ========================================= */
 @media screen and (max-width: 768px) {
-    .navbar {
+
+    header.navbar {
+        display: flex !important;
+        flex-wrap: wrap !important;
+        justify-content: space-between !important;
+        align-items: center !important;
+        row-gap: 10px !important;
+        column-gap: 12px !important;
         padding: 12px 16px !important;
-        flex-wrap: wrap;
     }
+
+    .nav-logo {
+        order: 1 !important;
+    }
+
+    .cart-btn {
+        order: 2 !important;
+    }
+
     .nav-links {
-        display: flex;
-        gap: 12px;
-        overflow-x: auto;
-        max-width: 100%;
-        padding: 8px 0;
+        order: 3 !important;
+        flex: 1 1 100% !important;
+        display: flex !important;
+        justify-content: center !important;
+        gap: 10px !important;
+        overflow-x: auto !important;
+        padding: 4px 0 0 !important;
+    }
+
+    .hero {
+        padding: 135px 20px 40px !important;
     }
 
     .hero-headline {
-    display: flex !important;
-    flex-direction: column !important;
-    align-items: center !important;
-    justify-content: center !important;
-    gap: 0 !important;
-}
+        position: relative !important;
+        display: block !important;
+        text-align: center !important;
+        width: 100% !important;
+        margin-bottom: 0.5rem !important;
+    }
 
-.hero-part {
-    font-size: clamp(2.8rem, 13vw, 4.2rem) !important;
-    text-align: center !important;
-    line-height: 1 !important;
-}
+    .hero-part {
+        display: block !important;
+        font-size: clamp(4.5rem, 22vw, 7rem) !important;
+        line-height: 0.9 !important;
+        letter-spacing: -0.01em !important;
+        text-align: center !important;
+    }
 
-.model-container {
-    position: relative !important;
-    top: auto !important;
-    left: auto !important;
-    transform: none !important;
-    width: min(260px, 68vw) !important;
-    height: 300px !important;
-    margin: -10px 0 !important;
-}
+    .hero-part:first-child {
+        margin-bottom: -9vw !important;
+    }
+
+    .hero-part:last-child {
+        margin-top: -9vw !important;
+    }
+
+    .model-container {
+        position: relative !important;
+        top: auto !important;
+        left: auto !important;
+        transform: none !important;
+        width: min(340px, 80vw) !important;
+        height: 360px !important;
+        margin: 0 auto !important;
+        z-index: 2 !important;
+    }
 
     .bento-grid {
         display: grid !important;
@@ -61,7 +93,7 @@
         width: 100% !important;
     }
 
-    .delivery-form input, 
+    .delivery-form input,
     .btn-check {
         width: 100% !important;
     }
