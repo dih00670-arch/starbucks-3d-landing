@@ -1,18 +1,6 @@
 /* =========================================
    МОБИЛЬНЫЙ АДАПТИВ
 ========================================= */
-.hero-headline {
-    display: grid !important;
-    grid-template-areas: "cof cup fee";
-    grid-template-columns: minmax(100px, 1fr) minmax(240px, 420px) minmax(100px, 1fr);
-    align-items: center;
-    justify-content: center;
-    gap: 1.5rem;
-}
-.hero-part:first-child { grid-area: cof; }
-.model-container { grid-area: cup; justify-self: center; }
-.hero-part:last-child { grid-area: fee; }
-
 @media screen and (max-width: 768px) {
     .navbar {
         padding: 12px 16px !important;
