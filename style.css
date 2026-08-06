@@ -15,14 +15,28 @@
     }
 
     .hero-headline {
-        display: flex !important;
-        flex-direction: column !important;
-        align-items: center !important;
-        justify-content: center !important;
-    }
-    .hero-part:first-child { order: 1 !important; }
-    .model-container { order: 2 !important; }
-    .hero-part:last-child { order: 3 !important; }
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 0 !important;
+}
+
+.hero-part {
+    font-size: clamp(2.8rem, 13vw, 4.2rem) !important;
+    text-align: center !important;
+    line-height: 1 !important;
+}
+
+.model-container {
+    position: relative !important;
+    top: auto !important;
+    left: auto !important;
+    transform: none !important;
+    width: min(260px, 68vw) !important;
+    height: 300px !important;
+    margin: -10px 0 !important;
+}
 
     .bento-grid {
         display: grid !important;
