@@ -21,9 +21,9 @@
         justify-content: center !important;
         gap: 12px !important;
     }
-    .hero-part:first-child { order: 2; }
-    .model-container { order: 1; width: min(240px, 65vw) !important; height: 260px !important; margin: 0 auto !important; }
-    .hero-part:last-child { order: 3; }
+    .hero-part:first-child { order: 1 !important; }
+    .model-container { order: 2 !important; width: min(240px, 65vw) !important; height: 260px !important; margin: 0 auto !important; }
+    .hero-part:last-child { order: 3 !important; }
 
     .hero-part {
         font-size: clamp(2.5rem, 12vw, 4rem) !important;
