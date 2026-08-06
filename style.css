@@ -19,26 +19,10 @@
         flex-direction: column !important;
         align-items: center !important;
         justify-content: center !important;
-        gap: 12px !important;
     }
     .hero-part:first-child { order: 1 !important; }
-    .model-container { order: 2 !important; width: min(240px, 65vw) !important; height: 260px !important; margin: 0 auto !important; }
+    .model-container { order: 2 !important; }
     .hero-part:last-child { order: 3 !important; }
-
-    .hero-part {
-        font-size: clamp(2.5rem, 12vw, 4rem) !important;
-        text-align: center;
-    }
-
-    .model-container {
-        position: relative !important;
-        top: auto !important;
-        left: auto !important;
-        transform: none !important;
-        width: 280px !important;
-        height: 320px !important;
-        margin: 10px 0 !important;
-    }
 
     .bento-grid {
         display: grid !important;
